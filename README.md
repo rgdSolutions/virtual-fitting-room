@@ -1,97 +1,97 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Virtual Fitting Room
 
-# Getting Started
+A React Native mobile app that lets users upload a photo of themselves and virtually try on clothing items. The app captures or selects a photo, sends it to a backend API for processing, and displays the try-on result.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Screenshots
 
-## Step 1: Start Metro
+<p align="center">
+  <img src=".github/screenshots/blank.png" width="300" alt="Blank photo upload screen" />
+  <img src=".github/screenshots/selected.png" width="300" alt="Selected photo upload screen" />
+</p>
+<p align="center">
+  <img src=".github/screenshots/uploaded.png" width="300" alt="JSON after upload" />
+  <img src=".github/screenshots/result.png" width="300" alt="Try-on result screen" />
+</p>
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Tech Stack
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- React Native 0.84 with React 19
+- TypeScript 5.8
+- React Navigation (native stack)
+- react-native-image-picker for photo selection
+- Jest + React Native Testing Library for tests
 
-```sh
-# Using npm
-npm start
+## Project Structure
 
-# OR using Yarn
-yarn start
+```
+src/
+├── components/        # Reusable UI (ErrorBanner, ResponseModal)
+├── screens/           # PhotoUploadScreen, TryOnResultScreen
+├── services/          # API layer (uploadPhoto)
+├── navigation/        # Stack param types
+├── theme.ts           # Design tokens (colors, typography, spacing)
+└── assets/            # Static images
 ```
 
-## Step 2: Build and run your app
+## Design Decisions
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+- **Local state only** - The app has two screens and a linear flow, so `useState` is sufficient. Adding Redux or Zustand would be unnecessary indirection here.
+- **Centralized theme tokens** - Colors, typography, and spacing live in a single `theme.ts` file imported directly by components, keeping styling consistent without the overhead of a context-based theme provider.
+- **Feature-oriented folder structure** - Code is organized by role (`screens/`, `components/`, `services/`) rather than by feature, which fits the app's small scope while staying familiar to any RN developer.
 
-### Android
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 22.11.0
+- [React Native development environment](https://reactnative.dev/docs/set-up-your-environment) configured for your target platform(s)
+- Xcode (for iOS)
+- Android Studio (for Android)
+
+### Install dependencies
 
 ```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+npm install
 ```
 
 ### iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+Install CocoaPods dependencies (first time or after updating native deps):
 
 ```sh
 bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
 bundle exec pod install
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Start Metro and run the app:
 
 ```sh
-# Using npm
+npm start
+# In a separate terminal
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### Android
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```sh
+npm start
+# In a separate terminal
+npm run android
+```
 
-## Step 3: Modify your app
+## Testing
 
-Now that you have successfully run the app, let's make changes!
+Every screen, component, and service has a corresponding test file mirroring the `src/` structure under `__tests__/`. Coverage thresholds are enforced at 80% for branches, functions, lines, and statements.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+```sh
+npm test
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+# With coverage report
+npx jest --coverage
+```
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## Linting
 
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+```sh
+npm run lint
+```
