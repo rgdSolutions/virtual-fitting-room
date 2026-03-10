@@ -19,11 +19,10 @@ export async function uploadPhoto(uri: string): Promise<Record<string, unknown>>
       'Content-Type': 'multipart/form-data',
     },
   });
-  
-  const data = await response.json();
-  console.log(data);
+
   if (!response.ok) {
     throw new Error(`Upload failed with status ${response.status}`);
   }
-  return data;
+  
+  return response.json();
 }

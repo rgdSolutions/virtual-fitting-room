@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Modal,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -19,6 +20,55 @@ export function ResponseModal({
   responseData,
   onContinue,
 }: ResponseModalProps) {
+  const renderField = (key: string, value: unknown) => {
+    if (value === null || value === undefined || value === '') {
+      return (
+        <View style={styles.fieldRow} key={key}>
+          <Text style={styles.fieldLabel}>{key}</Text>
+          <Text style={styles.fieldValue}>—</Text>
+        </View>
+      );
+    }
+
+    if (typeof value === 'object' && !Array.isArray(value)) {
+      const entries = Object.entries(value as Record<string, unknown>);
+      if (entries.length === 0) {
+        return (
+          <View style={styles.fieldRow} key={key}>
+            <Text style={styles.fieldLabel}>{key}</Text>
+            <Text style={styles.fieldValue}>(empty)</Text>
+          </View>
+        );
+      }
+      return (
+        <View key={key}>
+          <Text style={styles.sectionLabel}>{key}</Text>
+          {entries.map(([subKey, subValue]) => (
+            <View style={styles.fieldRow} key={`${key}-${subKey}`}>
+              <Text style={styles.nestedFieldLabel}>{subKey}</Text>
+              <Text style={styles.fieldValue} numberOfLines={2}>
+                {String(subValue ?? '—')}
+              </Text>
+            </View>
+          ))}
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.fieldRow} key={key}>
+        <Text style={styles.fieldLabel}>{key}</Text>
+        <Text style={styles.fieldValue} numberOfLines={2}>
+          {String(value)}
+        </Text>
+      </View>
+    );
+  };
+
+  const entries = responseData
+    ? Object.entries(responseData).filter(([key]) => key !== 'files')
+    : [];
+
   return (
     <Modal transparent animationType="fade" visible={visible}>
       <View style={styles.overlay}>
@@ -26,21 +76,16 @@ export function ResponseModal({
           <Text style={styles.header}>Upload Successful</Text>
           <View style={styles.separator} />
 
-          <View style={styles.fieldsContainer}>
-            <View style={styles.fieldRow}>
-              <Text style={styles.fieldLabel}>Origin</Text>
-              <Text style={styles.fieldValue}>
-                {responseData?.origin as string ?? '—'}
-              </Text>
+          <ScrollView style={styles.scrollArea}>
+            <View style={styles.fieldsContainer}>
+              {entries.map(([key, value], index) => (
+                <React.Fragment key={key}>
+                  {index > 0 && <View style={styles.fieldSeparator} />}
+                  {renderField(key, value)}
+                </React.Fragment>
+              ))}
             </View>
-            <View style={styles.fieldSeparator} />
-            <View style={styles.fieldRow}>
-              <Text style={styles.fieldLabel}>URL</Text>
-              <Text style={styles.fieldValue} numberOfLines={2}>
-                {responseData?.url as string ?? '—'}
-              </Text>
-            </View>
-          </View>
+          </ScrollView>
 
           <Pressable
             style={({pressed}) => [
@@ -82,11 +127,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceLight,
     marginVertical: 12,
   },
+  scrollArea: {
+    maxHeight: 350,
+    marginBottom: spacing.lg,
+  },
   fieldsContainer: {
     backgroundColor: colors.background,
     borderRadius: 10,
     paddingHorizontal: 16,
-    marginBottom: spacing.lg,
   },
   fieldRow: {
     flexDirection: 'row',
@@ -111,6 +159,22 @@ const styles = StyleSheet.create({
   fieldSeparator: {
     height: 1,
     backgroundColor: colors.surfaceLight,
+  },
+  sectionLabel: {
+    color: colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '400',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    paddingTop: 14,
+    paddingBottom: 6,
+  },
+  nestedFieldLabel: {
+    color: colors.textSecondary,
+    fontSize: 11,
+    fontWeight: '400',
+    paddingLeft: 12,
+    flexShrink: 0,
   },
   continueButton: {
     height: 56,
