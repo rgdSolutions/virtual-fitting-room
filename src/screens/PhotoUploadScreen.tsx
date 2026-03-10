@@ -9,15 +9,24 @@ import {
   View,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {ErrorBanner} from '../components/ErrorBanner';
+import {ResponseModal} from '../components/ResponseModal';
+import {uploadPhoto} from '../services/api';
 import {colors, typography, spacing} from '../theme';
 
 export function PhotoUploadScreen() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [uploading, _setUploading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [responseData, setResponseData] = useState<Record<
+    string,
+    unknown
+  > | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleSelectPhoto = useCallback(async () => {
     try {
@@ -53,6 +62,30 @@ export function PhotoUploadScreen() {
     setError('Failed to load the selected image. Please try another.');
     setImageUri(null);
   }, []);
+
+  const handleUpload = useCallback(async () => {
+    if (!imageUri) {
+      return;
+    }
+    setUploading(true);
+    setError(null);
+    try {
+      const data = await uploadPhoto(imageUri);
+      setResponseData(data);
+      setModalVisible(true);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : 'Upload failed. Please try again.';
+      setError(message);
+    } finally {
+      setUploading(false);
+    }
+  }, [imageUri]);
+
+  const handleContinue = useCallback(() => {
+    setModalVisible(false);
+    navigation.navigate('TryOnResult');
+  }, [navigation]);
 
   const hasImage = imageUri !== null;
 
@@ -111,9 +144,7 @@ export function PhotoUploadScreen() {
                 pressed && !uploading && styles.buttonPressed,
               ]}
               disabled={uploading}
-              onPress={() => {
-                // Upload logic will be implemented in a future commit
-              }}>
+              onPress={handleUpload}>
               {uploading ? (
                 <ActivityIndicator color={colors.accent} size="small" />
               ) : (
@@ -129,6 +160,12 @@ export function PhotoUploadScreen() {
           )}
         </View>
       </ScrollView>
+
+      <ResponseModal
+        visible={modalVisible}
+        responseData={responseData}
+        onContinue={handleContinue}
+      />
     </View>
   );
 }

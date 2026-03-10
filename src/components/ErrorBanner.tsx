@@ -6,6 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {colors} from '../theme';
 
 interface ErrorBannerProps {
@@ -15,11 +16,12 @@ interface ErrorBannerProps {
 }
 
 export function ErrorBanner({message, visible, onDismiss}: ErrorBannerProps) {
-  const translateY = useRef(new Animated.Value(-100)).current;
+  const insets = useSafeAreaInsets();
+  const translateY = useRef(new Animated.Value(-140)).current;
 
   useEffect(() => {
     Animated.timing(translateY, {
-      toValue: visible ? 0 : -100,
+      toValue: visible ? 0 : -140,
       duration: 300,
       useNativeDriver: true,
     }).start();
@@ -31,7 +33,10 @@ export function ErrorBanner({message, visible, onDismiss}: ErrorBannerProps) {
 
   return (
     <Animated.View
-      style={[styles.container, {transform: [{translateY}]}]}
+      style={[
+        styles.container,
+        {top: insets.top + 8, transform: [{translateY}]},
+      ]}
       pointerEvents={visible ? 'auto' : 'none'}>
       <View style={styles.content}>
         <Text style={styles.text}>{message}</Text>
@@ -46,13 +51,14 @@ export function ErrorBanner({message, visible, onDismiss}: ErrorBannerProps) {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
+    left: 16,
+    right: 16,
     zIndex: 100,
     backgroundColor: colors.errorBg,
     borderLeftWidth: 3,
     borderLeftColor: colors.error,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   content: {
     flexDirection: 'row',
