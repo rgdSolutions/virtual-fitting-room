@@ -1,5 +1,5 @@
 export type RootStackParamList = {
-  PhotoUpload: undefined;
+  PhotoUpload: {reset?: boolean} | undefined;
   TryOnResult: undefined;
 };
 

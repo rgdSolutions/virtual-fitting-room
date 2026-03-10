@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -9,7 +9,8 @@ import {
   View,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute, type RouteProp} from '@react-navigation/native';
+import type {RootStackParamList} from '../navigation/types';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {ErrorBanner} from '../components/ErrorBanner';
 import {ResponseModal} from '../components/ResponseModal';
@@ -19,6 +20,7 @@ import {colors, typography, spacing} from '../theme';
 export function PhotoUploadScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<RootStackParamList, 'PhotoUpload'>>();
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -27,6 +29,15 @@ export function PhotoUploadScreen() {
     unknown
   > | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    if (route.params?.reset) {
+      setImageUri(null);
+      setError(null);
+      setResponseData(null);
+      setModalVisible(false);
+    }
+  }, [route.params]);
 
   const handleSelectPhoto = useCallback(async () => {
     try {
