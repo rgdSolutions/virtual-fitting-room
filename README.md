@@ -33,14 +33,14 @@ src/
 └── assets/            # Static images
 ```
 
-## Design Decisions
+## Architectural Decisions
 
 - **Local state only** - The app has two screens and a linear flow, so `useState` is sufficient. Adding Redux or Zustand would be unnecessary here.
 - **Centralized theme tokens** - Colors, typography, and spacing live in a single `theme.ts` file imported directly by components, keeping styling consistent without the overhead of a context-based theme provider.
 - **Feature-oriented folder structure** - Code is organized by role (`screens/`, `components/`, `services/`) rather than by feature, which fits the app's small scope while staying familiar to any RN developer.
 - **Plain fetch for API calls** - The app makes a single POST request, so the built-in `fetch` API is enough. Adding Axios or React Query would introduce dependencies with no practical benefit at this scale.
 
-## Design Direction
+## UX/UI Direction
 
 - **Aesthetic** - Editorial / Fashion-forward — a dark, sophisticated palette inspired by luxury fashion apps. Confident typography, generous spacing, and subtle elegance. The app feels like preparing for a fashion shoot, not uploading a file.
 
