@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {
   Animated,
   Easing,
+  Image,
   Pressable,
   StyleSheet,
   Text,
@@ -11,146 +12,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {colors, typography, spacing} from '../theme';
 
-function PlaceholderSilhouette() {
-  const shimmer = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(shimmer, {
-          toValue: 1,
-          duration: 2400,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-        Animated.timing(shimmer, {
-          toValue: 0,
-          duration: 2400,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ]),
-    ).start();
-  }, [shimmer]);
-
-  const shimmerOpacity = shimmer.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.3, 0.7],
-  });
-
-  return (
-    <View style={placeholderStyles.container}>
-      {/* Abstract fashion silhouette built from geometric shapes */}
-      <Animated.View
-        style={[placeholderStyles.figure, {opacity: shimmerOpacity}]}>
-        {/* Head */}
-        <View style={placeholderStyles.head} />
-        {/* Neck */}
-        <View style={placeholderStyles.neck} />
-        {/* Shoulders & torso */}
-        <View style={placeholderStyles.shoulders} />
-        <View style={placeholderStyles.torso} />
-        {/* Waist accent line */}
-        <View style={placeholderStyles.waistLine} />
-        {/* Lower body / skirt silhouette */}
-        <View style={placeholderStyles.skirt} />
-      </Animated.View>
-
-      {/* Decorative corner marks */}
-      <View style={[placeholderStyles.corner, placeholderStyles.cornerTL]} />
-      <View style={[placeholderStyles.corner, placeholderStyles.cornerTR]} />
-      <View style={[placeholderStyles.corner, placeholderStyles.cornerBL]} />
-      <View style={[placeholderStyles.corner, placeholderStyles.cornerBR]} />
-    </View>
-  );
-}
-
-const placeholderStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  figure: {
-    alignItems: 'center',
-  },
-  head: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: colors.accentMuted,
-    marginBottom: 4,
-  },
-  neck: {
-    width: 2,
-    height: 10,
-    backgroundColor: colors.accentMuted,
-  },
-  shoulders: {
-    width: 72,
-    height: 2,
-    backgroundColor: colors.accentMuted,
-    borderRadius: 1,
-    marginBottom: 2,
-  },
-  torso: {
-    width: 56,
-    height: 64,
-    borderWidth: 1.5,
-    borderColor: colors.accentMuted,
-    borderTopWidth: 0,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-  },
-  waistLine: {
-    width: 48,
-    height: 1,
-    backgroundColor: colors.accent,
-    marginVertical: 2,
-  },
-  skirt: {
-    width: 0,
-    height: 0,
-    borderLeftWidth: 40,
-    borderRightWidth: 40,
-    borderTopWidth: 80,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderTopColor: colors.surfaceLight,
-    opacity: 0.6,
-  },
-  corner: {
-    position: 'absolute',
-    width: 20,
-    height: 20,
-    borderColor: colors.accentMuted,
-  },
-  cornerTL: {
-    top: 16,
-    left: 16,
-    borderLeftWidth: 1,
-    borderTopWidth: 1,
-  },
-  cornerTR: {
-    top: 16,
-    right: 16,
-    borderRightWidth: 1,
-    borderTopWidth: 1,
-  },
-  cornerBL: {
-    bottom: 16,
-    left: 16,
-    borderLeftWidth: 1,
-    borderBottomWidth: 1,
-  },
-  cornerBR: {
-    bottom: 16,
-    right: 16,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
-  },
-});
+const tryOnResultImage = require('../assets/gettyimages-1425659876-small.jpg');
 
 export function TryOnResultScreen() {
   const insets = useSafeAreaInsets();
@@ -190,7 +52,11 @@ export function TryOnResultScreen() {
 
         {/* Result Image Area */}
         <View style={styles.resultContainer}>
-          <PlaceholderSilhouette />
+          <Image
+            source={tryOnResultImage}
+            style={styles.resultImage}
+            resizeMode="cover"
+          />
         </View>
 
         {/* Description */}
@@ -236,6 +102,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.surface,
     marginBottom: spacing.lg,
+  },
+  resultImage: {
+    width: '100%',
+    height: '100%',
   },
   description: {
     color: colors.textSecondary,

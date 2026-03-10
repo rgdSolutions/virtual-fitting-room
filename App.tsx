@@ -28,7 +28,7 @@ function App() {
           <Stack.Screen
             name="PhotoUpload"
             component={PhotoUploadScreen}
-            options={{headerShown: false}}
+            options={{headerShown: false, gestureEnabled: false}}
           />
           <Stack.Screen
             name="TryOnResult"
