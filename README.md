@@ -42,7 +42,7 @@ src/
 
 ## Design Direction
 
-**Aesthetic**: Editorial / Fashion-forward — a dark, sophisticated palette inspired by luxury fashion apps. Confident typography, generous spacing, and subtle elegance. The app feels like preparing for a fashion shoot, not uploading a file.
+- **Aesthetic** - Editorial / Fashion-forward — a dark, sophisticated palette inspired by luxury fashion apps. Confident typography, generous spacing, and subtle elegance. The app feels like preparing for a fashion shoot, not uploading a file.
 
 ## Getting Started
 
