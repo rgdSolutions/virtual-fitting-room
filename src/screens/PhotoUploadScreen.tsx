@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -8,14 +8,18 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation, useRoute, type RouteProp} from '@react-navigation/native';
-import type {RootStackParamList} from '../navigation/types';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {ErrorBanner} from '../components/ErrorBanner';
-import {ResponseModal} from '../components/ResponseModal';
-import {uploadPhoto} from '../services/api';
-import {colors, typography, spacing} from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  useNavigation,
+  useRoute,
+  type RouteProp,
+} from '@react-navigation/native';
+import type { RootStackParamList } from '../navigation/types';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { ErrorBanner } from '../components/ErrorBanner';
+import { ResponseModal } from '../components/ResponseModal';
+import { uploadPhoto } from '../services/api';
+import { colors, typography, spacing } from '../theme';
 
 export function PhotoUploadScreen() {
   const insets = useSafeAreaInsets();
@@ -64,7 +68,7 @@ export function PhotoUploadScreen() {
         setError(null);
         setImageUri(asset.uri);
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred while selecting a photo.');
     }
   }, []);
@@ -101,7 +105,7 @@ export function PhotoUploadScreen() {
   const hasImage = imageUri !== null;
 
   return (
-    <View style={[styles.screen, {paddingTop: insets.top}]}>
+    <View style={[styles.screen, { paddingTop: insets.top }]}>
       <ErrorBanner
         message={error || ''}
         visible={error !== null}
@@ -110,7 +114,8 @@ export function PhotoUploadScreen() {
 
       <ScrollView
         contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+      >
         {/* Title */}
         <View style={styles.titleBlock}>
           <Text style={styles.title}>Virtual</Text>
@@ -118,10 +123,12 @@ export function PhotoUploadScreen() {
         </View>
 
         {/* Image Preview */}
-        <View style={[styles.previewContainer, !hasImage && styles.previewEmpty]}>
+        <View
+          style={[styles.previewContainer, !hasImage && styles.previewEmpty]}
+        >
           {hasImage ? (
             <Image
-              source={{uri: imageUri}}
+              source={{ uri: imageUri }}
               style={styles.previewImage}
               resizeMode="cover"
               onError={handleImageError}
@@ -137,11 +144,12 @@ export function PhotoUploadScreen() {
         {/* Buttons */}
         <View style={styles.buttonGroup}>
           <Pressable
-            style={({pressed}) => [
+            style={({ pressed }) => [
               styles.primaryButton,
               pressed && styles.buttonPressed,
             ]}
-            onPress={handleSelectPhoto}>
+            onPress={handleSelectPhoto}
+          >
             <Text style={styles.primaryButtonText}>
               {hasImage ? 'Change Photo' : 'Select Photo'}
             </Text>
@@ -149,13 +157,14 @@ export function PhotoUploadScreen() {
 
           {hasImage && (
             <Pressable
-              style={({pressed}) => [
+              style={({ pressed }) => [
                 styles.secondaryButton,
                 uploading && styles.secondaryButtonDisabled,
                 pressed && !uploading && styles.buttonPressed,
               ]}
               disabled={uploading}
-              onPress={handleUpload}>
+              onPress={handleUpload}
+            >
               {uploading ? (
                 <ActivityIndicator color={colors.accent} size="small" />
               ) : (
@@ -163,7 +172,8 @@ export function PhotoUploadScreen() {
                   style={[
                     styles.secondaryButtonText,
                     uploading && styles.secondaryButtonTextDisabled,
-                  ]}>
+                  ]}
+                >
                   Confirm & Upload
                 </Text>
               )}

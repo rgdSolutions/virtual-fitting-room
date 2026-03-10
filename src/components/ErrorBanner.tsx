@@ -1,13 +1,7 @@
-import React, {useEffect, useRef} from 'react';
-import {
-  Animated,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {colors} from '../theme';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../theme';
 
 interface ErrorBannerProps {
   message: string;
@@ -15,7 +9,7 @@ interface ErrorBannerProps {
   onDismiss: () => void;
 }
 
-export function ErrorBanner({message, visible, onDismiss}: ErrorBannerProps) {
+export function ErrorBanner({ message, visible, onDismiss }: ErrorBannerProps) {
   const insets = useSafeAreaInsets();
   const translateY = useRef(new Animated.Value(-140)).current;
 
@@ -35,9 +29,10 @@ export function ErrorBanner({message, visible, onDismiss}: ErrorBannerProps) {
     <Animated.View
       style={[
         styles.container,
-        {top: insets.top + 8, transform: [{translateY}]},
+        { top: insets.top + 8, transform: [{ translateY }] },
       ]}
-      pointerEvents={visible ? 'auto' : 'none'}>
+      pointerEvents={visible ? 'auto' : 'none'}
+    >
       <View style={styles.content}>
         <Text style={styles.text}>{message}</Text>
         <Pressable onPress={onDismiss} hitSlop={12}>

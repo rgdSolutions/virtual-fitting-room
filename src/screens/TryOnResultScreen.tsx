@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Animated,
   Easing,
@@ -8,9 +8,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
-import {colors, typography, spacing} from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { colors, typography, spacing } from '../theme';
 
 const tryOnResultImage = require('../assets/gettyimages-1425659876-small.jpg');
 
@@ -38,12 +38,13 @@ export function TryOnResultScreen() {
   }, [fadeAnim, slideAnim]);
 
   return (
-    <View style={[styles.screen, {paddingTop: insets.top}]}>
+    <View style={[styles.screen, { paddingTop: insets.top }]}>
       <Animated.View
         style={[
           styles.content,
-          {opacity: fadeAnim, transform: [{translateY: slideAnim}]},
-        ]}>
+          { opacity: fadeAnim, transform: [{ translateY: slideAnim }] },
+        ]}
+      >
         {/* Title */}
         <View style={styles.titleBlock}>
           <Text style={styles.title}>Your</Text>
@@ -66,11 +67,12 @@ export function TryOnResultScreen() {
 
         {/* Back button */}
         <Pressable
-          style={({pressed}) => [
+          style={({ pressed }) => [
             styles.backButton,
             pressed && styles.buttonPressed,
           ]}
-          onPress={() => navigation.navigate('PhotoUpload', {reset: true})}>
+          onPress={() => navigation.navigate('PhotoUpload', { reset: true })}
+        >
           <Text style={styles.backButtonText}>Start Over</Text>
         </Pressable>
       </Animated.View>

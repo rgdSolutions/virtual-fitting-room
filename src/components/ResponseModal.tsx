@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {colors, typography, spacing} from '../theme';
+import { colors, typography, spacing } from '../theme';
 
 interface ResponseModalProps {
   visible: boolean;
@@ -88,11 +88,12 @@ export function ResponseModal({
           </ScrollView>
 
           <Pressable
-            style={({pressed}) => [
+            style={({ pressed }) => [
               styles.continueButton,
               pressed && styles.buttonPressed,
             ]}
-            onPress={onContinue}>
+            onPress={onContinue}
+          >
             <Text style={styles.continueButtonText}>Continue</Text>
           </Pressable>
         </View>

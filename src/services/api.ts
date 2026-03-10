@@ -1,6 +1,8 @@
 const API_URL = 'https://httpbin.org/post';
 
-export async function uploadPhoto(uri: string): Promise<Record<string, unknown>> {
+export async function uploadPhoto(
+  uri: string,
+): Promise<Record<string, unknown>> {
   const filename = uri.split('/').pop() || 'photo.jpg';
   const match = /\.(\w+)$/.exec(filename);
   const type = match ? `image/${match[1]}` : 'image/jpeg';
@@ -23,6 +25,6 @@ export async function uploadPhoto(uri: string): Promise<Record<string, unknown>>
   if (!response.ok) {
     throw new Error(`Upload failed with status ${response.status}`);
   }
-  
+
   return response.json();
 }
