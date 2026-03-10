@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.surface,
     marginBottom: spacing.lg,
+    marginHorizontal: 'auto',
   },
   resultImage: {
     width: '100%',

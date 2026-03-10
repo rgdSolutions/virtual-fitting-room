@@ -211,20 +211,21 @@ const styles = StyleSheet.create({
   previewContainer: {
     aspectRatio: 3 / 4,
     borderRadius: 12,
-    overflow: 'hidden',
     backgroundColor: colors.surface,
     marginBottom: spacing.lg,
+    marginHorizontal: 'auto',
   },
   previewEmpty: {
-    borderWidth: 1,
+    borderWidth: 4,
     borderStyle: 'dashed',
     borderColor: colors.surfaceLight,
     justifyContent: 'center',
     alignItems: 'center',
+    marginHorizontal: 'auto',
   },
   previewImage: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
+    borderRadius: 12,
   },
   placeholderContent: {
     alignItems: 'center',
